@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { routes } from '../Router'
-import { createNewPost, getPost, getPostDetails } from '../../actions'
+import { createNewPost, getPost, getPostDetails, likeDeslike } from '../../actions'
 
 
 const ListPost = styled.div`
@@ -23,7 +23,7 @@ class UserPage extends React.Component {
     super(props)
     this.state = {
       title: '',
-      text: ''
+      text: '',
     }
   }
 
@@ -46,13 +46,24 @@ class UserPage extends React.Component {
     const { title, text } = this.state
     event.preventDefault()
     this.props.createNewPost(title, text)
+    this.setState({
+      title: '',
+      text: '',
+    })
   }
 
   handlePostDetail = id => {
     this.props.getPostDetails(id)
   }
 
+  handleLikeDeslike = (number, id) => {
+    const namePage = 'userPage' 
+    this.props.likeDeslike(number, id,namePage)
+
+  }
+
   render() {
+    console.log(this.props.postList)
     const { title, text } = this.state
     return (
       <ListPost>
@@ -82,15 +93,20 @@ class UserPage extends React.Component {
         </Button>
         </form>
         {this.props.postList === undefined ? "Carregando..." : this.props.postList.map(data => {
-        return ( 
-        <Card 
-        key={data.id} 
-        avatar={data.username.substr(0,1)} 
-        title={data.title}
-        text={data.text}
-        postDetail={() => this.handlePostDetail(data.id)}
-        /> )
-      })}
+          return (
+            <Card
+              key={data.id}
+              avatar={data.username.substr(0, 1)}
+              title={data.title}
+              text={data.text}
+              postDetail={() => this.handlePostDetail(data.id)}
+              handleLikeDeslike={this.handleLikeDeslike}
+              id={data.id}
+              votesCount={data.votesCount}
+              userVoteDirection = {data.userVoteDirection}
+
+            />)
+        })}
       </ListPost>
     )
   }
@@ -107,7 +123,9 @@ const mapDispatchToProps = (dispatch) => {
     goToLoginPage: () => dispatch(push(routes.loginPage)),
     createNewPost: (title, text) => dispatch(createNewPost(title, text)),
     getPosts: () => dispatch(getPost()),
-    getPostDetails: id => dispatch(getPostDetails(id))
+    getPostDetails: id => dispatch(getPostDetails(id)),
+    likeDeslike: (number, id,namePage ) => dispatch(likeDeslike(number, id,namePage))
+
   }
 }
 

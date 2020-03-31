@@ -20,26 +20,29 @@ const Post = props => {
                     avatar={
                         <Avatar>
                             {props.avatar}
-                    </Avatar>
+                        </Avatar>
                     }
                     title={props.title}
                 />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.text}
-        </Typography>
+                    </Typography>
                 </CardContent>
                 <CardActions>
-                    <IconButton>
-                        <ArrowDownwardIcon />
+                    <IconButton
+                        onClick={() => props.handleLikeDeslike(-1, props.id)}>
+                        <ArrowDownwardIcon color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
                     </IconButton>
-                    <IconButton>
-                    <ArrowUpwardIcon />
+                    <p>{props.votesCount}</p>
+                    <IconButton
+                        onClick={() => props.handleLikeDeslike(1, props.id)}>
+                        <ArrowUpwardIcon color={props.userVoteDirection <= 0 ? '' : 'primary'} />
                     </IconButton>
                     <IconButton
                     //   onClick={handleExpandClick}
                     >
-                        <CommentIcon onClick={props.postDetail}/>
+                        <CommentIcon onClick={props.postDetail} />
                     </IconButton>
                 </CardActions>
             </Card>

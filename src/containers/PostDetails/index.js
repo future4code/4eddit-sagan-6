@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { routes } from '../Router';
 import { push } from 'connected-react-router';
-import { createNewComment, getPostDetails } from '../../actions';
+import { createNewComment, getPostDetails, likeDeslike, likeDeslikeComment } from '../../actions';
 import styled from 'styled-components';
-
 import Input from '@material-ui/core/Input';
 import Card from '../../components/Card';
 import Comment from '../../components/Comment';
@@ -33,6 +32,7 @@ class PostDetails extends Component {
     this.props.getPostDetails(id)
   }
 
+
   handleChangeInput = event => {
     this.setState({
       comment: event.target.value
@@ -41,20 +41,36 @@ class PostDetails extends Component {
 
   submitComment = (id) => {
     this.props.createNewComment(this.state.comment, id)
+    this.setState({
+      comment : ''
+    })
+  }
+
+  handleLikeDeslike = (number, id) => {
+    this.props.likeDeslike(number, id)
+  }
+
+  handleLikeDeslikeComment = (number, id) => {
+    console.log(number, id)
+    this.props.likeDeslikeComment(number, id)
   }
 
   render() {
-
-    const { username, text, title, comments, id } = this.props.postDetail === undefined ? false : this.props.postDetail;
+    console.log(this.props.postDetail)
+    const { username, text, title, comments, id, userVoteDirection, votesCount } = this.props.postDetail === undefined ? false : this.props.postDetail;
 
     return (
       <ListPost>
         {this.props.postDetail === undefined ? "Carregando..." :
           <div>
             <Card
-              avatar={username.substr(0, 1)}
               title={title}
               text={text}
+              handleLikeDeslike={this.handleLikeDeslike}
+              id={id}
+              userVoteDirection={userVoteDirection}
+              votesCount={votesCount}
+              avatar={username && username.substr(0, 1)}
             />
 
             <form onSubmit={(e) => { e.preventDefault(); this.submitComment(id) }}>
@@ -69,12 +85,17 @@ class PostDetails extends Component {
               />
               <Button type="submit">Publicar</Button>
             </form>
-            {comments.map(data => {
+            {comments === undefined ? 'carregando' : comments.map(data => {
               return (
                 <Comment
                   key={data.id}
                   title={data.username}
                   text={data.text}
+                  handleLikeDeslikeComment={this.handleLikeDeslikeComment}
+                  id={data.id}
+                  userVoteDirection={data.userVoteDirection}
+                  votesCount = {data.votesCount}
+
                 />
               )
             })}
@@ -94,7 +115,9 @@ const mapDispatchToProps = dispatch => {
     goToHome: () => dispatch(push(routes.loginPage)),
     goToUserPage: () => dispatch(push(routes.userPage)),
     createNewComment: (comment, id) => dispatch(createNewComment(comment, id)),
-    getPostDetails: id => dispatch(getPostDetails(id))
+    getPostDetails: id => dispatch(getPostDetails(id)),
+    likeDeslike: (number, id) => dispatch(likeDeslike(number, id)),
+    likeDeslikeComment: (number, id,idPost) => dispatch(likeDeslikeComment(number, id,idPost))
   }
 }
 

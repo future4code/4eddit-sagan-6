@@ -1,4 +1,7 @@
-const initialSate = []
+const initialSate = {
+    posts: [],
+    postDetail: {}
+}
 
 const ReducerPost = (state = initialSate, action) => {
     switch (action.type) {
