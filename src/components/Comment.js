@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
@@ -22,11 +21,14 @@ const Comment = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton>
-          <ArrowDownwardIcon />
+        <IconButton
+          onClick={() => props.handleLikeDeslikeComment(-1, props.id)}>
+          <ArrowDownwardIcon color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
         </IconButton>
-        <IconButton>
-          <ArrowUpwardIcon />
+        <p>{props.votesCount}</p>
+        <IconButton
+          onClick={() => props.handleLikeDeslikeComment(1, props.id)}>
+          <ArrowUpwardIcon color={props.userVoteDirection <= 0 ? '' : 'primary'} />
         </IconButton>
       </CardActions>
     </Card>

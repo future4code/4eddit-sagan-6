@@ -30,6 +30,13 @@ class LoginPage extends Component {
     }
   }
 
+  componentDidMount(){
+    const token = window.localStorage.getItem('token')
+    if(token !== ''){
+      this.props.goToUserPage()
+    }
+  }
+
   handleChangeInput = event => {
     const { name, value } = event.target;
     this.setState({
@@ -68,7 +75,8 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     submitLogin: (user, password) => dispatch(login(user, password)),
-    goToSingUp: () => dispatch(push(routes.singUp))
+    goToSingUp: () => dispatch(push(routes.singUp)),
+    goToUserPage : () => dispatch(push(routes.userPage))
   }
 }
 
