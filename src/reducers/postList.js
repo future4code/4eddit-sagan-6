@@ -3,12 +3,14 @@ const initialSate = []
 const ReducerPost = (state = initialSate, action) => {
     switch (action.type) {
         case "GET_POSTS":
-            return (action.payload.data,
-                console.log(action.payload.data))
+            return {...state, posts: action.payload.data}
+
+        case "POST_DETAILS":
+            return {...state, postDetail: action.payload.data}
         default:
             return state
 
     }
 }
 
-export default ReducerPost
+export default ReducerPost;

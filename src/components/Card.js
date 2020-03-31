@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CardActions from '@material-ui/core/CardActions';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CommentIcon from '@material-ui/icons/Comment';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
@@ -23,24 +23,23 @@ const Post = props => {
                     </Avatar>
                     }
                     title={props.title}
-                    subheader={props.date}
                 />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.text}
         </Typography>
                 </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                <CardActions>
+                    <IconButton>
                         <ArrowDownwardIcon />
                     </IconButton>
-                    <IconButton aria-label="share">
+                    <IconButton>
                     <ArrowUpwardIcon />
                     </IconButton>
                     <IconButton
                     //   onClick={handleExpandClick}
                     >
-                        <ExpandMoreIcon />
+                        <CommentIcon onClick={props.postDetail}/>
                     </IconButton>
                 </CardActions>
             </Card>

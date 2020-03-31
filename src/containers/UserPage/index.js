@@ -1,12 +1,12 @@
 import React from 'react'
-import Post from '../../components/Card'
+import Card from '../../components/Card'
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { routes } from '../Router'
-import { createNewPost, getPost } from '../../actions'
+import { createNewPost, getPost, getPostDetails } from '../../actions'
 
 
 const ListPost = styled.div`
@@ -33,7 +33,6 @@ class UserPage extends React.Component {
       this.props.goToLoginPage()
     }
     this.props.getPosts()
-    console.log(this.props.postList)
   }
 
   handleChangeInput = event => {
@@ -49,18 +48,12 @@ class UserPage extends React.Component {
     this.props.createNewPost(title, text)
   }
 
-  renderPost = () => {
-      let test =this.props.postList.map(data => {
-        return ( <p>{data.text}</p> )
-      })
-      console.log(test)
-      return test
-      
-    }
+  handlePostDetail = id => {
+    this.props.getPostDetails(id)
+  }
 
   render() {
     const { title, text } = this.state
-
     return (
       <ListPost>
         <form
@@ -88,7 +81,16 @@ class UserPage extends React.Component {
             Publicar
         </Button>
         </form>
-        {this.renderPost()}
+        {this.props.postList === undefined ? "Carregando..." : this.props.postList.map(data => {
+        return ( 
+        <Card 
+        key={data.id} 
+        avatar={data.username.substr(0,1)} 
+        title={data.title}
+        text={data.text}
+        postDetail={() => this.handlePostDetail(data.id)}
+        /> )
+      })}
       </ListPost>
     )
   }
@@ -96,7 +98,7 @@ class UserPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    postList: state.postList
+    postList: state.postList.posts
   }
 }
 
@@ -104,7 +106,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     goToLoginPage: () => dispatch(push(routes.loginPage)),
     createNewPost: (title, text) => dispatch(createNewPost(title, text)),
-    getPosts: () => dispatch(getPost())
+    getPosts: () => dispatch(getPost()),
+    getPostDetails: id => dispatch(getPostDetails(id))
   }
 }
 

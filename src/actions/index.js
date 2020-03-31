@@ -3,7 +3,6 @@ import { routes } from '../containers/Router';
 import { push } from 'connected-react-router';
 
 const baseUrl = 'https://us-central1-future-apis.cloudfunctions.net/fourEddit/';
-const token = window.localStorage.getItem('token');
 
 export const login = (user, password) => async dispatch => {
   try {
@@ -41,8 +40,10 @@ export const singUp = (userName, email, password) => async dispatch => {
 }
 
 export const createNewPost = (title, text) => async dispatch => {
-  console.log(title, text)
   try {
+
+    const token = window.localStorage.getItem('token');
+
     const response = await axios.post(`${baseUrl}posts`, {
       text,
       title
@@ -60,6 +61,9 @@ export const createNewPost = (title, text) => async dispatch => {
 
  export const getPost = () => async dispatch => {
   try {
+
+    const token = window.localStorage.getItem('token');
+
     const response = await axios.get(`${baseUrl}posts`,
       {
         headers: {
@@ -81,3 +85,48 @@ export const handlePosts = (data) =>(
 )
 
 
+export const getPostDetails = id => async dispatch => {
+  try {
+
+    const token = window.localStorage.getItem('token');
+
+    const response = await axios.get(`${baseUrl}posts/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'auth': token
+      }
+    })
+
+    window.localStorage.setItem('id', response.data.post.id);
+
+    dispatch(postDetails(response.data.post))
+    dispatch(push(routes.postDetails))
+
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
+export const postDetails = (data) => ({
+  type: "POST_DETAILS",
+  payload: {data}
+})
+
+
+export const createNewComment = (comment, id) => async dispatch => {
+  try {
+
+    const token = window.localStorage.getItem('token');
+
+    await axios.post(`${baseUrl}posts/${id}/comment`, {
+      'text': comment
+    }, {
+      headers: {
+        'Type-Content': 'application/json',
+        'auth': token
+      }
+    })
+  } catch (error) {
+    console.error(error.message)
+  }
+}
