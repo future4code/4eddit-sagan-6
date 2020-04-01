@@ -8,49 +8,16 @@ import IconButton from '@material-ui/core/IconButton';
 import CardActions from '@material-ui/core/CardActions';
 import CommentIcon from '@material-ui/icons/Comment';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import {
-    EmailShareButton,
-    FacebookShareButton,
-    InstapaperShareButton,
-    LineShareButton,
-    LinkedinShareButton,
-    LivejournalShareButton,
-    MailruShareButton,
-    OKShareButton,
-    PinterestShareButton,
-    PocketShareButton,
-    RedditShareButton,
-    TelegramShareButton,
-    TumblrShareButton,
-    TwitterShareButton,
-    ViberShareButton,
-    VKShareButton,
-    WhatsappShareButton,
-    WorkplaceShareButton,
+    FacebookShareButton, RedditShareButton,TwitterShareButton,WhatsappShareButton,
 } from "react-share";
 
 import {
-    EmailIcon,
     FacebookIcon,
-    InstapaperIcon,
-    LineIcon,
-    LinkedinIcon,
-    LivejournalIcon,
-    MailruIcon,
-    OKIcon,
-    PinterestIcon,
-    PocketIcon,
     RedditIcon,
-    TelegramIcon,
-    TumblrIcon,
     TwitterIcon,
-    ViberIcon,
-    VKIcon,
-    WeiboIcon,
     WhatsappIcon,
-    WorkplaceIcon,
 } from "react-share";
 
 const Post = props => {

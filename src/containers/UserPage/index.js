@@ -1,6 +1,5 @@
 import React from 'react'
 import Card from '../../components/Card'
-import styled from 'styled-components'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { routes } from '../Router'
@@ -11,7 +10,6 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Header from '../../components/Header';
-
 import { ListPost, Form } from '../../style/styles';
 
 class UserPage extends React.Component {
@@ -20,8 +18,11 @@ class UserPage extends React.Component {
     this.state = {
       title: '',
       text: '',
+      filterPosts: '',
+      allpostsFilter: undefined
     }
   }
+
 
   componentDidMount() {
     const token = window.localStorage.getItem('token')
@@ -45,6 +46,7 @@ class UserPage extends React.Component {
     this.setState({
       title: '',
       text: '',
+      filterPosts: '',
     })
   }
 
@@ -57,13 +59,31 @@ class UserPage extends React.Component {
     this.props.likeDeslikePost(number, id, namePage)
   }
 
+  handleFilterPost = () => {
+    const { filterPosts } = this.state
+    const valueFilter = filterPosts === undefined ? this.props.postList : filterPosts
+    const allPostsNoFilter = this.props.postList
+    const postsFilter = allPostsNoFilter.filter(post => {
+      return (post.text.toLowerCase().indexOf(valueFilter.toLowerCase()) > -1)
+    })
+    this.setState({
+      allpostsFilter: postsFilter
+    })
+  }
+
 
   render() {
-    const { title, text } = this.state
-
+    const { title, text, filterPosts, allpostsFilter } = this.state
+    const allPosts = allpostsFilter === undefined ? this.props.postList : allpostsFilter
     return (
       <div>
-        <Header goToLoginPage={this.props.goToLoginPage} />
+        <Header
+          goToLoginPage={this.props.goToLoginPage}
+          filterPosts={filterPosts}
+          handleChangeInput={this.handleChangeInput}
+          handleFilterPost={this.handleFilterPost}
+          handleFilterPost={this.handleFilterPost}
+        />
         <Form
           onSubmit={this.handleNewPost}
         >
@@ -91,7 +111,7 @@ class UserPage extends React.Component {
         </Form>
         <ListPost>
           {this.props.postList.length === 0 ? <CircularProgress /> :
-            this.props.postList.map(data => {
+            allPosts.map(data => {
               return (
                 <Card
                   key={data.id}
@@ -108,6 +128,7 @@ class UserPage extends React.Component {
                 />)
             })}
         </ListPost>
+
       </div>
     )
   }
@@ -126,7 +147,6 @@ const mapDispatchToProps = (dispatch) => {
     getPosts: () => dispatch(getPosts()),
     getPostDetails: id => dispatch(getPostDetails(id)),
     likeDeslikePost: (number, id, namePage) => dispatch(likeDeslikePost(number, id, namePage))
-
   }
 }
 

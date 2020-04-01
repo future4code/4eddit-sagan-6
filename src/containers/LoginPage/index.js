@@ -1,34 +1,14 @@
 import React, { Component } from "react";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 import { routes } from '../Router';
 import { push } from 'connected-react-router';
 import Header from "../../components/Header";
+import { WrapperLoginAndCreateUserPage, FormLoginAndCreateUserPage } from '../../style/styles'
 
-const WrapperLoginPage = styled.div`
-  width: 20vw;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 
-  @media screen and (max-width: 450px) {
-    width: 90%;
-  }
-`
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-
-  @media screen and(width: 450px) {
-    width: 100vw;
-  }
-`
 
 class LoginPage extends Component {
   constructor(props) {
@@ -42,6 +22,7 @@ class LoginPage extends Component {
   componentDidMount() {
     const token = window.localStorage.getItem('token')
     if (token !== null) {
+
       this.props.goToUserPage()
     }
   }
@@ -64,8 +45,8 @@ class LoginPage extends Component {
     return (
       <div>
         <Header/>
-        <WrapperLoginPage>
-          <Form onSubmit={this.handleSubmitLogin}>
+        <WrapperLoginAndCreateUserPage>
+          <FormLoginAndCreateUserPage onSubmit={this.handleSubmitLogin}>
             <Input name='user' type='email'
               value={user}
               onChange={this.handleChangeInput}
@@ -81,9 +62,9 @@ class LoginPage extends Component {
               required
             />
             <Button color='primary' type='submit'>Entrar</Button>
-          </Form>
+          </FormLoginAndCreateUserPage>
           <Button onClick={this.props.goToSingUpPage}>Cadastrar</Button>
-        </WrapperLoginPage>
+        </WrapperLoginAndCreateUserPage>
       </div>
     );
   }
