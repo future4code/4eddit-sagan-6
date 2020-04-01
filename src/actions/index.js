@@ -41,7 +41,7 @@ export const getPostDetails = id => async dispatch => {
     window.localStorage.setItem('id', response.data.post.id);
 
     dispatch(getPostDetailsToReducer(response.data.post))
-    dispatch(push(routes.postDetails))
+    dispatch(push(routes.postDetails = response.data.post.id))
 
   } catch (error) {
     console.error(error.message)

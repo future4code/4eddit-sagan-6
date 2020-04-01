@@ -10,13 +10,56 @@ import CommentIcon from '@material-ui/icons/Comment';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    InstapaperShareButton,
+    LineShareButton,
+    LinkedinShareButton,
+    LivejournalShareButton,
+    MailruShareButton,
+    OKShareButton,
+    PinterestShareButton,
+    PocketShareButton,
+    RedditShareButton,
+    TelegramShareButton,
+    TumblrShareButton,
+    TwitterShareButton,
+    ViberShareButton,
+    VKShareButton,
+    WhatsappShareButton,
+    WorkplaceShareButton,
+} from "react-share";
+
+import {
+    EmailIcon,
+    FacebookIcon,
+    InstapaperIcon,
+    LineIcon,
+    LinkedinIcon,
+    LivejournalIcon,
+    MailruIcon,
+    OKIcon,
+    PinterestIcon,
+    PocketIcon,
+    RedditIcon,
+    TelegramIcon,
+    TumblrIcon,
+    TwitterIcon,
+    ViberIcon,
+    VKIcon,
+    WeiboIcon,
+    WhatsappIcon,
+    WorkplaceIcon,
+} from "react-share";
+
 const Post = props => {
     return (
         <Card>
             <CardHeader
                 avatar={<Avatar>{props.avatar}</Avatar>}
                 title={props.title}
-                subheader ={props.name}
+                subheader={props.name}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
@@ -38,6 +81,18 @@ const Post = props => {
                 <IconButton onClick={props.postDetail}>
                     {props.showCommentIcon === false ? ' ' : <CommentIcon />}
                 </IconButton>
+                <FacebookShareButton url={props.url} title={props.title}>
+                    <FacebookIcon size={28} round={true} />
+                </FacebookShareButton>
+                <TwitterShareButton url={props.url} title={props.title}>
+                    <TwitterIcon size={28} round={true} />
+                </TwitterShareButton>
+                <RedditShareButton url={props.url} title={props.title}>
+                    <RedditIcon size={28} round={true} />
+                </RedditShareButton>
+                <WhatsappShareButton url={props.url} title={props.title}>
+                    <WhatsappIcon size={28} round={true} />
+                </WhatsappShareButton>
             </CardActions>
         </Card>
 

@@ -4,14 +4,19 @@ import { singUp } from '../../actions/auth';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
+import Header from '../../components/Header';
 
-const WrapperLoginPage = styled.div`
+const WrapperSingUpPage = styled.div`
   width: 20vw;
   height: 100vh;
   margin: auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  @media screen and (max-width: 450px) {
+    width: 90%;
+  }
 `
 
 const Form = styled.form`
@@ -39,35 +44,38 @@ class SingUp extends Component {
   render() {
     const { userName, email, password } = this.state;
     return (
-      <WrapperLoginPage>
-        <Form
-          onSubmit={(event) => {
-            event.preventDefault();
-            this.props.submitSingUp(userName, email, password)
-          }}>
-          <Input name='userName' type='text'
-            value={userName}
-            onChange={this.handleChangeInput}
-            placeholder='Digite seu nome de usuário.'
-            required
-          />
-          <Input name='email' type='email'
-            value={email}
-            onChange={this.handleChangeInput}
-            placeholder='Digite seu email.'
-            required
-          />
-          <Input
-            name='password'
-            type='password'
-            value={password}
-            onChange={this.handleChangeInput}
-            placeholder='Digite sua senha.'
-            required
-          />
-          <Button color='primary' type='submit'>Cadastrar</Button>
-        </Form>
-      </WrapperLoginPage>
+      <div>
+        <Header/>
+        <WrapperSingUpPage>
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              this.props.submitSingUp(userName, email, password)
+            }}>
+            <Input name='userName' type='text'
+              value={userName}
+              onChange={this.handleChangeInput}
+              placeholder='Digite seu nome de usuário.'
+              required
+            />
+            <Input name='email' type='email'
+              value={email}
+              onChange={this.handleChangeInput}
+              placeholder='Digite seu email.'
+              required
+            />
+            <Input
+              name='password'
+              type='password'
+              value={password}
+              onChange={this.handleChangeInput}
+              placeholder='Digite sua senha.'
+              required
+            />
+            <Button color='primary' type='submit'>Cadastrar</Button>
+          </Form>
+        </WrapperSingUpPage>
+      </div>
     )
   }
 }

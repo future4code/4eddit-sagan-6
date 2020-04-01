@@ -11,7 +11,7 @@ export const routes = {
   loginPage: "/",
   singUpPage: "/singUpPage",
   userPage: "/userPage",
-  postDetails: "/postDetails"
+  postDetails: ""
 };
 
 function Router(props) {
