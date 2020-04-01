@@ -23,12 +23,14 @@ const Comment = (props) => {
       <CardActions>
         <IconButton
           onClick={() => props.handleLikeDeslikeComment(-1, props.id)}>
-          <ArrowDownwardIcon color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
+          <ArrowDownwardIcon
+            color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
         </IconButton>
         <p>{props.votesCount}</p>
         <IconButton
           onClick={() => props.handleLikeDeslikeComment(1, props.id)}>
-          <ArrowUpwardIcon color={props.userVoteDirection <= 0 ? '' : 'primary'} />
+          <ArrowUpwardIcon
+            color={props.userVoteDirection <= 0 ? '' : 'primary'} />
         </IconButton>
       </CardActions>
     </Card>

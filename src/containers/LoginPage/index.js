@@ -3,7 +3,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { login } from '../../actions/index';
+import { login } from '../../actions/auth';
 import { routes } from '../Router';
 import { push } from 'connected-react-router';
 
@@ -32,7 +32,8 @@ class LoginPage extends Component {
 
   componentDidMount(){
     const token = window.localStorage.getItem('token')
-    if(token !== ''){
+    console.log(token)
+    if(token !== null ){
       this.props.goToUserPage()
     }
   }
@@ -44,12 +45,17 @@ class LoginPage extends Component {
     })
   }
 
+  handleSubmitLogin = event =>{
+    const { user, password } = this.state;
+    event.preventDefault()
+    this.props.submitLogin(user, password)
+  }
+
   render() {
     const { user, password } = this.state;
-
     return (
       <WrapperLoginPage>
-        <Form onSubmit={(event) => {event.preventDefault(); this.props.submitLogin(user, password)}}>
+        <Form onSubmit={this.handleSubmitLogin}>
           <Input name='user' type='email'
             value={user}
             onChange={this.handleChangeInput}
@@ -66,7 +72,7 @@ class LoginPage extends Component {
           />
           <Button color='primary' type='submit'>Entrar</Button>
         </Form>
-        <Button onClick={this.props.goToSingUp}>Cadastrar</Button>
+        <Button onClick={this.props.goToSingUpPage}>Cadastrar</Button>
       </WrapperLoginPage>
     );
   }
@@ -75,7 +81,7 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     submitLogin: (user, password) => dispatch(login(user, password)),
-    goToSingUp: () => dispatch(push(routes.singUp)),
+    goToSingUpPage: () => dispatch(push(routes.singUpPage)),
     goToUserPage : () => dispatch(push(routes.userPage))
   }
 }

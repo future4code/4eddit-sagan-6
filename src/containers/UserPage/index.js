@@ -1,13 +1,15 @@
 import React from 'react'
 import Card from '../../components/Card'
-import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { routes } from '../Router'
-import { createNewPost, getPost, getPostDetails, likeDeslike } from '../../actions'
-
+import { getPosts, getPostDetails, } from '../../actions'
+import { likeDeslikePost } from '../../actions/handleLike'
+import { createNewPost } from '../../actions/createPostAndComment'
+import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 
 const ListPost = styled.div`
 width: 45vw;
@@ -29,7 +31,7 @@ class UserPage extends React.Component {
 
   componentDidMount() {
     const token = window.localStorage.getItem('token')
-    if (token === '') {
+    if (token === null) {
       this.props.goToLoginPage()
     }
     this.props.getPosts()
@@ -56,14 +58,13 @@ class UserPage extends React.Component {
     this.props.getPostDetails(id)
   }
 
-  handleLikeDeslike = (number, id) => {
-    const namePage = 'userPage' 
-    this.props.likeDeslike(number, id,namePage)
-
+  handleLikeDeslikePost = (number, id) => {
+    const namePage = 'userPage'
+    this.props.likeDeslikePost(number, id, namePage)
   }
 
   render() {
-    console.log(this.props.postList)
+    console.log()
     const { title, text } = this.state
     return (
       <ListPost>
@@ -92,21 +93,23 @@ class UserPage extends React.Component {
             Publicar
         </Button>
         </form>
-        {this.props.postList === undefined ? "Carregando..." : this.props.postList.map(data => {
-          return (
-            <Card
-              key={data.id}
-              avatar={data.username.substr(0, 1)}
-              title={data.title}
-              text={data.text}
-              postDetail={() => this.handlePostDetail(data.id)}
-              handleLikeDeslike={this.handleLikeDeslike}
-              id={data.id}
-              votesCount={data.votesCount}
-              userVoteDirection = {data.userVoteDirection}
+        {this.props.postList.length === 0 ? <CircularProgress/> :
+          this.props.postList.map(data => {
+            return (
+              <Card
+                key={data.id}
+                avatar={data.username.substr(0, 1)}
+                title={data.title}
+                text={data.text}
+                postDetail={() => this.handlePostDetail(data.id)}
+                handleLikeDeslikePost={this.handleLikeDeslikePost}
+                id={data.id}
+                votesCount={data.votesCount}
+                userVoteDirection={data.userVoteDirection}
+                name = {data.username}
 
-            />)
-        })}
+              />)
+          })}
       </ListPost>
     )
   }
@@ -122,9 +125,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     goToLoginPage: () => dispatch(push(routes.loginPage)),
     createNewPost: (title, text) => dispatch(createNewPost(title, text)),
-    getPosts: () => dispatch(getPost()),
+    getPosts: () => dispatch(getPosts()),
     getPostDetails: id => dispatch(getPostDetails(id)),
-    likeDeslike: (number, id,namePage ) => dispatch(likeDeslike(number, id,namePage))
+    likeDeslikePost: (number, id, namePage) => dispatch(likeDeslikePost(number, id, namePage))
 
   }
 }
