@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { singUp } from '../../actions';
+import { connect } from 'react-redux';
+import { singUp } from '../../actions/auth';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
@@ -40,30 +40,34 @@ class SingUp extends Component {
     const { userName, email, password } = this.state;
     return (
       <WrapperLoginPage>
-      <Form onSubmit={(event) => {event.preventDefault(); this.props.submitSingUp(userName, email, password)}}>
-      <Input name='userName' type='text'
-          value={userName}
-          onChange={this.handleChangeInput}
-          placeholder='Digite seu nome de usuário.'
-          required
-        />
-        <Input name='email' type='email'
-          value={email}
-          onChange={this.handleChangeInput}
-          placeholder='Digite seu email.'
-          required
-        />
-        <Input
-          name='password'
-          type='password'
-          value={password}
-          onChange={this.handleChangeInput}
-          placeholder='Digite sua senha.'
-          required
-        />
-        <Button color='primary' type='submit'>Cadastrar</Button>
-      </Form>
-    </WrapperLoginPage>
+        <Form
+          onSubmit={(event) => {
+            event.preventDefault();
+            this.props.submitSingUp(userName, email, password)
+          }}>
+          <Input name='userName' type='text'
+            value={userName}
+            onChange={this.handleChangeInput}
+            placeholder='Digite seu nome de usuário.'
+            required
+          />
+          <Input name='email' type='email'
+            value={email}
+            onChange={this.handleChangeInput}
+            placeholder='Digite seu email.'
+            required
+          />
+          <Input
+            name='password'
+            type='password'
+            value={password}
+            onChange={this.handleChangeInput}
+            placeholder='Digite sua senha.'
+            required
+          />
+          <Button color='primary' type='submit'>Cadastrar</Button>
+        </Form>
+      </WrapperLoginPage>
     )
   }
 }
@@ -73,6 +77,6 @@ const mapDispatchToProps = dispatch => {
     submitSingUp: (userName, email, password) => dispatch(singUp(userName, email, password))
   }
 }
-  
+
 
 export default connect(null, mapDispatchToProps)(SingUp);

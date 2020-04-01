@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { routes } from '../Router';
 import { push } from 'connected-react-router';
-import { createNewComment, getPostDetails, likeDeslike, likeDeslikeComment } from '../../actions';
+import { getPostDetails } from '../../actions';
+import { likeDeslikePost, likeDeslikeComment } from '../../actions/handleLike'
+import { createNewComment } from '../../actions/createPostAndComment'
 import styled from 'styled-components';
 import Input from '@material-ui/core/Input';
 import Card from '../../components/Card';
 import Comment from '../../components/Comment';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ListPost = styled.div`
   width: 45vw;
@@ -29,9 +32,13 @@ class PostDetails extends Component {
 
   componentDidMount() {
     const id = window.localStorage.getItem('id')
+    const token = window.localStorage.getItem('token')
     this.props.getPostDetails(id)
+    if(token === null){
+      this.props.goToHome()
+    }
+   
   }
-
 
   handleChangeInput = event => {
     this.setState({
@@ -42,37 +49,35 @@ class PostDetails extends Component {
   submitComment = (id) => {
     this.props.createNewComment(this.state.comment, id)
     this.setState({
-      comment : ''
+      comment: ''
     })
   }
 
-  handleLikeDeslike = (number, id) => {
-    this.props.likeDeslike(number, id)
+  handleLikeDeslikePost = (number, id) => {
+    this.props.likeDeslikePost(number, id)
   }
 
   handleLikeDeslikeComment = (number, id) => {
-    console.log(number, id)
     this.props.likeDeslikeComment(number, id)
   }
 
   render() {
-    console.log(this.props.postDetail)
-    const { username, text, title, comments, id, userVoteDirection, votesCount } = this.props.postDetail === undefined ? false : this.props.postDetail;
-
+    const { username, text, title, comments, id,
+      userVoteDirection, votesCount } = this.props.postDetail
     return (
       <ListPost>
-        {this.props.postDetail === undefined ? "Carregando..." :
           <div>
             <Card
               title={title}
               text={text}
-              handleLikeDeslike={this.handleLikeDeslike}
+              handleLikeDeslikePost={this.handleLikeDeslikePost }
               id={id}
               userVoteDirection={userVoteDirection}
               votesCount={votesCount}
               avatar={username && username.substr(0, 1)}
+              name = {username}
+              showCommentIcon = {false}
             />
-
             <form onSubmit={(e) => { e.preventDefault(); this.submitComment(id) }}>
               <Input
                 name="comment"
@@ -85,7 +90,7 @@ class PostDetails extends Component {
               />
               <Button type="submit">Publicar</Button>
             </form>
-            {comments === undefined ? 'carregando' : comments.map(data => {
+            {comments === undefined ? <CircularProgress /> : comments.map(data => {
               return (
                 <Comment
                   key={data.id}
@@ -94,8 +99,7 @@ class PostDetails extends Component {
                   handleLikeDeslikeComment={this.handleLikeDeslikeComment}
                   id={data.id}
                   userVoteDirection={data.userVoteDirection}
-                  votesCount = {data.votesCount}
-
+                  votesCount={data.votesCount}
                 />
               )
             })}
@@ -116,8 +120,8 @@ const mapDispatchToProps = dispatch => {
     goToUserPage: () => dispatch(push(routes.userPage)),
     createNewComment: (comment, id) => dispatch(createNewComment(comment, id)),
     getPostDetails: id => dispatch(getPostDetails(id)),
-    likeDeslike: (number, id) => dispatch(likeDeslike(number, id)),
-    likeDeslikeComment: (number, id,idPost) => dispatch(likeDeslikeComment(number, id,idPost))
+    likeDeslikePost: (number, id) => dispatch(likeDeslikePost(number, id)),
+    likeDeslikeComment: (number, id, idPost) => dispatch(likeDeslikeComment(number, id, idPost))
   }
 }
 

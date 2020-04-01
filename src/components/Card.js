@@ -10,43 +10,37 @@ import CommentIcon from '@material-ui/icons/Comment';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-
-
 const Post = props => {
     return (
-        <div>
-            <Card>
-                <CardHeader
-                    avatar={
-                        <Avatar>
-                            {props.avatar}
-                        </Avatar>
-                    }
-                    title={props.title}
-                />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {props.text}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <IconButton
-                        onClick={() => props.handleLikeDeslike(-1, props.id)}>
-                        <ArrowDownwardIcon color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
-                    </IconButton>
-                    <p>{props.votesCount}</p>
-                    <IconButton
-                        onClick={() => props.handleLikeDeslike(1, props.id)}>
-                        <ArrowUpwardIcon color={props.userVoteDirection <= 0 ? '' : 'primary'} />
-                    </IconButton>
-                    <IconButton
-                    //   onClick={handleExpandClick}
-                    >
-                        <CommentIcon onClick={props.postDetail} />
-                    </IconButton>
-                </CardActions>
-            </Card>
-        </div>
+        <Card>
+            <CardHeader
+                avatar={<Avatar>{props.avatar}</Avatar>}
+                title={props.title}
+                subheader ={props.name}
+            />
+            <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {props.text}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <IconButton
+                    onClick={() => props.handleLikeDeslikePost(-1, props.id)}>
+                    <ArrowDownwardIcon
+                        color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
+                </IconButton>
+                <p>{props.votesCount}</p>
+                <IconButton
+                    onClick={() => props.handleLikeDeslikePost(1, props.id)}>
+                    <ArrowUpwardIcon
+                        color={props.userVoteDirection <= 0 ? '' : 'primary'} />
+                </IconButton>
+                <IconButton onClick={props.postDetail}>
+                    {props.showCommentIcon === false ? ' ' : <CommentIcon />}
+                </IconButton>
+            </CardActions>
+        </Card>
+
     )
 }
 
