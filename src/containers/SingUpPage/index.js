@@ -3,26 +3,11 @@ import { connect } from 'react-redux';
 import { singUp } from '../../actions/auth';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-import styled from 'styled-components';
+import { goBack } from 'connected-react-router'
 import Header from '../../components/Header';
+import { FormLoginAndCreateUserPage, WrapperLoginAndCreateUserPage } from '../../style/styles'
 
-const WrapperSingUpPage = styled.div`
-  width: 20vw;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 
-  @media screen and (max-width: 450px) {
-    width: 90%;
-  }
-`
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`
 
 class SingUp extends Component {
   constructor(props) {
@@ -45,9 +30,9 @@ class SingUp extends Component {
     const { userName, email, password } = this.state;
     return (
       <div>
-        <Header/>
-        <WrapperSingUpPage>
-          <Form
+        <Header />
+        <WrapperLoginAndCreateUserPage>
+          <FormLoginAndCreateUserPage
             onSubmit={(event) => {
               event.preventDefault();
               this.props.submitSingUp(userName, email, password)
@@ -73,8 +58,11 @@ class SingUp extends Component {
               required
             />
             <Button color='primary' type='submit'>Cadastrar</Button>
-          </Form>
-        </WrapperSingUpPage>
+          </FormLoginAndCreateUserPage>
+          <Button color='secondary'
+            onClick={this.props.goBack}
+          >Voltar</Button>
+        </WrapperLoginAndCreateUserPage>
       </div>
     )
   }
@@ -82,7 +70,8 @@ class SingUp extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    submitSingUp: (userName, email, password) => dispatch(singUp(userName, email, password))
+    submitSingUp: (userName, email, password) => dispatch(singUp(userName, email, password)),
+    goBack: () => dispatch(goBack())
   }
 }
 

@@ -1,8 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
@@ -10,26 +7,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import {WrapperToolbar,Search} from '../style/headerStyle'
 
-const WrapperToolbar = styled(Toolbar)`
-  display: flex;
-  justify-content: space-between;
-`
+const token = window.localStorage.getItem('token')
 
-const Search = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  input {
-    width: 30vw;
-  }
-`
 
 const Header = (props) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = event => {
@@ -60,30 +45,45 @@ const Header = (props) => {
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
-
   return (
+
     <div>
       <AppBar position="static">
         <WrapperToolbar>
           <Typography variant="h6" noWrap>
-              4Eddit
+            4Eddit
           </Typography>
           <Search>
             <InputBase
+              onChange={props.handleChangeInput}
               placeholder="Pesquisar…"
               inputProps={{ 'aria-label': 'pesquisa' }}
+              name='filterPosts'
+              value={props.filterPosts}
             />
-            <SearchIcon />
+            <SearchIcon
+              onClick={props.handleFilterPost}
+            />
           </Search>
-          <IconButton 
+          {token === null ? <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            color="inherit">
+            <AccountCircle />
+          </IconButton>
+            : <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit">
-            <AccountCircle />
-          </IconButton>
+              <AccountCircle />
+            </IconButton>
+          }
+
         </WrapperToolbar>
       </AppBar>
       {renderMenu}

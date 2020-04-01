@@ -5,14 +5,12 @@ import { push } from 'connected-react-router';
 import { getPostDetails } from '../../actions';
 import { likeDeslikePost, likeDeslikeComment } from '../../actions/handleLike'
 import { createNewComment } from '../../actions/createPostAndComment'
-import styled from 'styled-components';
 import Input from '@material-ui/core/Input';
 import Card from '../../components/Card';
 import Comment from '../../components/Comment';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
 import { ListPost, Form } from '../../style/styles';
 import Header from '../../components/Header';
 
@@ -84,7 +82,7 @@ class PostDetails extends Component {
               placeholder="Digite um comentário"
               required
             />
-            <Button type="submit">Publicar</Button>
+            <Button type="submit" color = 'primary'>Publicar</Button>
           </Form>
           <Button color="secondary" onClick={this.props.goToUserPage}><ArrowBackIcon/>Voltar</Button>
         </ListPost>
