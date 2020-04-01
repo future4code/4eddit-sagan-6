@@ -10,16 +10,10 @@ import { createNewPost } from '../../actions/createPostAndComment'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
+import Header from '../../components/Header';
 
-const ListPost = styled.div`
-width: 45vw;
-margin: auto;
-form{
-  display: flex;
-  flex-direction: column;
-}
-;
-`
+import { ListPost, Form } from '../../style/styles';
+
 class UserPage extends React.Component {
   constructor(props) {
     super(props)
@@ -63,12 +57,14 @@ class UserPage extends React.Component {
     this.props.likeDeslikePost(number, id, namePage)
   }
 
+
   render() {
-    console.log()
     const { title, text } = this.state
+
     return (
-      <ListPost>
-        <form
+      <div>
+        <Header goToLoginPage={this.props.goToLoginPage} />
+        <Form
           onSubmit={this.handleNewPost}
         >
           <TextField
@@ -92,25 +88,27 @@ class UserPage extends React.Component {
             color='primary'>
             Publicar
         </Button>
-        </form>
-        {this.props.postList.length === 0 ? <CircularProgress/> :
-          this.props.postList.map(data => {
-            return (
-              <Card
-                key={data.id}
-                avatar={data.username.substr(0, 1)}
-                title={data.title}
-                text={data.text}
-                postDetail={() => this.handlePostDetail(data.id)}
-                handleLikeDeslikePost={this.handleLikeDeslikePost}
-                id={data.id}
-                votesCount={data.votesCount}
-                userVoteDirection={data.userVoteDirection}
-                name = {data.username}
-
-              />)
-          })}
-      </ListPost>
+        </Form>
+        <ListPost>
+          {this.props.postList.length === 0 ? <CircularProgress /> :
+            this.props.postList.map(data => {
+              return (
+                <Card
+                  key={data.id}
+                  avatar={data.username.substr(0, 1)}
+                  title={data.title}
+                  text={data.text}
+                  postDetail={() => this.handlePostDetail(data.id)}
+                  handleLikeDeslikePost={this.handleLikeDeslikePost}
+                  id={data.id}
+                  votesCount={data.votesCount}
+                  userVoteDirection={data.userVoteDirection}
+                  name={data.username}
+                  url={`http://${window.location.hostname}/${data.id}`}
+                />)
+            })}
+        </ListPost>
+      </div>
     )
   }
 }
