@@ -10,9 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { useStyles } from '../style/headerStyle';
 
-
-
-const Header = (props) => {
+const Header = props => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -28,8 +26,7 @@ const Header = (props) => {
   const handleLogout = () => {
     window.localStorage.clear();
     props.goToLoginPage();
-  }
-
+  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -52,52 +49,56 @@ const Header = (props) => {
           <Typography className={classes.title} variant="h6" noWrap>
             4Eddit
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon/>
+          {props.search && (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                onChange={props.handleChangeInput}
+                placeholder="Pesquisar…"
+                inputProps={{ 'aria-label': 'pesquisa' }}
+                name="filterPosts"
+                value={props.filterPosts}
+                onKeyUp={props.keyPress}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              onChange={props.handleChangeInput}
-              placeholder="Pesquisar…"
-              inputProps={{ 'aria-label': 'pesquisa' }}
-              name='filterPosts'
-              value={props.filterPosts}
-              onKeyUp={props.keyPress}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+          )}
           <div className={classes.grow} />
           <div>
-            {props.token === null ?
+            {props.token === null ? (
               <IconButton
                 edge="end"
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                color="inherit">
+                color="inherit"
+              >
                 <AccountCircle />
               </IconButton>
-              :
+            ) : (
               <IconButton
                 edge="end"
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
-                color="inherit">
+                color="inherit"
+              >
                 <AccountCircle />
               </IconButton>
-            }
+            )}
           </div>
         </Toolbar>
       </AppBar>
       {renderMenu}
     </div>
-  )
-}
+  );
+};
 
 export default Header;
