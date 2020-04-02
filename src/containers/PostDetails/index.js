@@ -45,12 +45,46 @@ class PostDetails extends Component {
     })
   }
 
-  handleLikeDeslikePost = (number, id) => {
-    this.props.likeDeslikePost(number, id)
+  handleLikePost = (number, id) => {
+
+    if (this.props.postDetail.userVoteDirection === 1) {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(0, id, namePage)
+    } else {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(number, id, namePage)
+    }
   }
 
-  handleLikeDeslikeComment = (number, id) => {
-    this.props.likeDeslikeComment(number, id)
+  handleDeslikePost = (number, id) => {
+
+    if (this.props.postDetail.userVoteDirection === -1) {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(0, id, namePage)
+    } else {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(number, id, namePage)
+    }
+  }
+
+  handleLikeComment = (number, id) => {
+    const result = this.props.postDetail.comments.find((data) => data.id == id)
+
+    if (result.userVoteDirection === 1) {
+      this.props.likeDeslikeComment(0, id)
+    } else {
+      this.props.likeDeslikeComment(number, id)
+    }
+  }
+
+  handleDeslikeComment = (number, id) => {
+    const result = this.props.postDetail.comments.find((data) => data.id == id)
+
+    if (result.userVoteDirection === -1) {
+      this.props.likeDeslikeComment(0, id)
+    } else {
+      this.props.likeDeslikeComment(number, id)
+    }
   }
 
   render() {
@@ -63,7 +97,8 @@ class PostDetails extends Component {
           <Card
             title={title}
             text={text}
-            handleLikeDeslikePost={this.handleLikeDeslikePost}
+            handleLikePost={this.handleLikePost}
+            handleDeslikePost={this.handleDeslikePost}
             id={id}
             userVoteDirection={userVoteDirection}
             votesCount={votesCount}
@@ -82,9 +117,9 @@ class PostDetails extends Component {
               placeholder="Digite um comentário"
               required
             />
-            <Button type="submit" color = 'primary'>Publicar</Button>
+            <Button type="submit" color='primary'>Publicar</Button>
           </Form>
-          <Button color="secondary" onClick={this.props.goToUserPage}><ArrowBackIcon/>Voltar</Button>
+          <Button color="secondary" onClick={this.props.goToUserPage}><ArrowBackIcon />Voltar</Button>
         </ListPost>
         <ListPost>
           <h2>
@@ -96,7 +131,8 @@ class PostDetails extends Component {
                 key={data.id}
                 title={data.username}
                 text={data.text}
-                handleLikeDeslikeComment={this.handleLikeDeslikeComment}
+                handleLikeComment={this.handleLikeComment}
+                handleDeslikeComment={this.handleDeslikeComment}
                 id={data.id}
                 userVoteDirection={data.userVoteDirection}
                 votesCount={data.votesCount}

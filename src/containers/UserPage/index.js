@@ -60,9 +60,28 @@ class UserPage extends React.Component {
     this.props.getPostDetails(id)
   }
 
-  handleLikeDeslikePost = (number, id) => {
-    const namePage = 'userPage'
-    this.props.likeDeslikePost(number, id, namePage)
+  handleLikePost = (number, id) => {
+    const result = this.props.postList.find((data) => data.id == id)
+
+    if (result.userVoteDirection === 1) {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(0, id, namePage)
+    } else {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(number, id, namePage)
+    }
+  }
+
+  handleDeslikePost = (number, id) => {
+    const result = this.props.postList.find((data) => data.id == id)
+
+    if (result.userVoteDirection === -1) {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(0, id, namePage)
+    } else {
+      const namePage = 'userPage'
+      this.props.likeDeslikePost(number, id, namePage)
+    }
   }
 
   handleFilterPost = () => {
@@ -124,7 +143,8 @@ class UserPage extends React.Component {
                   title={data.title}
                   text={data.text}
                   postDetail={() => this.handlePostDetail(data.id)}
-                  handleLikeDeslikePost={this.handleLikeDeslikePost}
+                  handleLikePost={this.handleLikePost}
+                  handleDeslikePost={this.handleDeslikePost}
                   id={data.id}
                   votesCount={data.votesCount}
                   userVoteDirection={data.userVoteDirection}
