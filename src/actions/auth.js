@@ -23,6 +23,7 @@ export const login = (user, password) => async dispatch => {
       dispatch(push(routes.userPage))
   
     } catch (error) {
+      alert("Ops! Nome de usuário ou senha estão errados.")
       console.error(error.message)
     }
   }

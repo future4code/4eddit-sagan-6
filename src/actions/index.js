@@ -25,7 +25,6 @@ export const getPostToReducer = (data) => (
   }
 )
 
-
 export const getPostDetails = id => async dispatch => {
   try {
 
@@ -52,6 +51,4 @@ export const getPostDetailsToReducer = (data) => ({
   type: "POST_DETAILS",
   payload: { data }
 })
-
-
 

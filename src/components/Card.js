@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +12,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import {
-    FacebookShareButton, RedditShareButton,TwitterShareButton,WhatsappShareButton,
+    FacebookShareButton, RedditShareButton, TwitterShareButton, WhatsappShareButton,
 } from "react-share";
 
 import {
@@ -20,13 +22,18 @@ import {
     WhatsappIcon,
 } from "react-share";
 
+const CardHeaderTitle = styled(CardHeader)`
+    cursor: pointer;
+`
+
 const Post = props => {
     return (
         <Card>
-            <CardHeader
+            <CardHeaderTitle
                 avatar={<Avatar>{props.avatar}</Avatar>}
                 title={props.title}
                 subheader={props.name}
+                onClick={props.postDetail}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
@@ -45,9 +52,10 @@ const Post = props => {
                     <ArrowUpwardIcon
                         color={props.userVoteDirection <= 0 ? '' : 'primary'} />
                 </IconButton>
-                <IconButton onClick={props.postDetail}>
-                    {props.showCommentIcon === false ? ' ' : <CommentIcon />}
-                </IconButton>
+                {props.showCommentIcon === false ? false :
+                    <IconButton onClick={props.postDetail}>
+                        <CommentIcon />
+                    </IconButton>}
                 <FacebookShareButton url={props.url} title={props.title}>
                     <FacebookIcon size={28} round={true} />
                 </FacebookShareButton>

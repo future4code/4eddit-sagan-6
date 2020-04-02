@@ -19,14 +19,14 @@ class UserPage extends React.Component {
       title: '',
       text: '',
       filterPosts: '',
-      allpostsFilter: undefined
+      allpostsFilter: undefined,
+      token: window.localStorage.getItem('token')
     }
   }
 
 
   componentDidMount() {
-    const token = window.localStorage.getItem('token')
-    if (token === null) {
+    if (this.state.token === null) {
       this.props.goToLoginPage()
     }
     this.props.getPosts()
@@ -37,6 +37,12 @@ class UserPage extends React.Component {
     this.setState({
       [name]: value
     })
+  }
+
+  handleEnter = event => {
+    if (event.keyCode === 13) {
+      this.handleFilterPost()
+    }
   }
 
   handleNewPost = event => {
@@ -71,7 +77,6 @@ class UserPage extends React.Component {
     })
   }
 
-
   render() {
     const { title, text, filterPosts, allpostsFilter } = this.state
     const allPosts = allpostsFilter === undefined ? this.props.postList : allpostsFilter
@@ -81,8 +86,8 @@ class UserPage extends React.Component {
           goToLoginPage={this.props.goToLoginPage}
           filterPosts={filterPosts}
           handleChangeInput={this.handleChangeInput}
-          handleFilterPost={this.handleFilterPost}
-          handleFilterPost={this.handleFilterPost}
+          keyPress={this.handleEnter}
+          token={this.state.token}
         />
         <Form
           onSubmit={this.handleNewPost}
