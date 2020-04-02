@@ -44,7 +44,7 @@ class LoginPage extends Component {
     const { user, password } = this.state;
     return (
       <div>
-        <Header/>
+        <Header token={null}/>
         <WrapperLoginAndCreateUserPage>
           <FormLoginAndCreateUserPage onSubmit={this.handleSubmitLogin}>
             <Input name='user' type='email'
