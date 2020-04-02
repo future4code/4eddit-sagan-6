@@ -42,13 +42,13 @@ const Post = props => {
             </CardContent>
             <CardActions>
                 <IconButton
-                    onClick={() => props.handleLikeDeslikePost(-1, props.id)}>
+                    onClick={() => props.handleDeslikePost(-1, props.id)}>
                     <ArrowDownwardIcon
                         color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
                 </IconButton>
                 <p>{props.votesCount}</p>
                 <IconButton
-                    onClick={() => props.handleLikeDeslikePost(1, props.id)}>
+                    onClick={() => props.handleLikePost(1, props.id)}>
                     <ArrowUpwardIcon
                         color={props.userVoteDirection <= 0 ? '' : 'primary'} />
                 </IconButton>
