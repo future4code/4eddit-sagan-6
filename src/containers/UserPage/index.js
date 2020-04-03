@@ -69,7 +69,10 @@ class UserPage extends React.Component {
     } else {
       const namePage = 'userPage'
       this.props.likeDeslikePost(number, id, namePage)
+      
     }
+    this.handleFilterPost()
+     
   }
 
   handleDeslikePost = (number, id) => {
@@ -82,9 +85,14 @@ class UserPage extends React.Component {
       const namePage = 'userPage'
       this.props.likeDeslikePost(number, id, namePage)
     }
+    const response = async () =>{
+      await this.handleFilterPost()
+    }
+   response()
   }
 
   handleFilterPost = () => {
+    console.log('fui clicado')
     const { filterPosts } = this.state
     const valueFilter = filterPosts === undefined ? this.props.postList : filterPosts
     const allPostsNoFilter = this.props.postList
@@ -98,7 +106,7 @@ class UserPage extends React.Component {
 
   render() {
     const { title, text, filterPosts, allpostsFilter } = this.state
-    const allPosts = allpostsFilter === undefined ? this.props.postList : allpostsFilter
+    const allPosts = allpostsFilter ? allpostsFilter : this.props.postList
     return (
       <div>
         <Header
