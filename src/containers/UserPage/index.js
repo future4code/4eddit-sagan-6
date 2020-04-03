@@ -85,8 +85,7 @@ class UserPage extends React.Component {
 
   handleFilterPost = () => {
     const { filterPosts } = this.state;
-    const valueFilter =
-      filterPosts === undefined ? this.props.postList : filterPosts;
+    const valueFilter = !filterPosts ? this.props.postList : filterPosts;
     const allPostsNoFilter = this.props.postList;
     const postsFilter = allPostsNoFilter.filter(post => {
       return post.text.toLowerCase().indexOf(valueFilter.toLowerCase()) > -1;
