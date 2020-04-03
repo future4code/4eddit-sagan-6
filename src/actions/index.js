@@ -4,15 +4,19 @@ import { push } from 'connected-react-router';
 
 export const baseUrl = 'https://us-central1-future-apis.cloudfunctions.net/fourEddit/';
 
-export const getPosts = () => async dispatch => {
+export const getPosts = filterPosts => async dispatch => {
   try {
     const token = window.localStorage.getItem('token')
     const response = await axios.get(`${baseUrl}posts`,
       {
-        headers: {'auth': token}
+        headers: { 'auth': token }
       }
     )
+
     dispatch(getPostToReducer(response.data.posts))
+
+    dispatch(filterToReducer(filterPosts))
+
   } catch (error) {
     console.error(error.message)
   }
@@ -24,6 +28,13 @@ export const getPostToReducer = (data) => (
     payload: { data }
   }
 )
+
+export const filterToReducer = (valueFilter) => ({
+  type: "FILTER",
+  payload: {
+    valueFilter
+  }
+})
 
 export const getPostDetails = id => async dispatch => {
   try {

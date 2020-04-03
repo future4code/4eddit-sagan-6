@@ -38,8 +38,13 @@ class UserPage extends React.Component {
   }
 
   handleEnter = event => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && this.state.filterPosts !== '') {
       this.handleFilterPost()
+    } else if (event.keyCode === 13) {
+      this.handleFilterPost()
+      this.setState({
+        allpostsFilter: undefined
+      })
     }
   }
 
@@ -50,7 +55,6 @@ class UserPage extends React.Component {
     this.setState({
       title: '',
       text: '',
-      filterPosts: '',
     })
   }
 
@@ -59,52 +63,44 @@ class UserPage extends React.Component {
   }
 
   handleLikePost = (number, id) => {
+    const { filterPosts } = this.state
     const result = this.props.postList.find((data) => data.id == id)
 
     if (result.userVoteDirection === 1) {
       const namePage = 'userPage'
-      this.props.likeDeslikePost(0, id, namePage)
+      this.props.likeDeslikePost(0, id, namePage, filterPosts)
     } else {
       const namePage = 'userPage'
-      this.props.likeDeslikePost(number, id, namePage)
-      
+      this.props.likeDeslikePost(number, id, namePage, filterPosts)
     }
-    this.handleFilterPost()
-     
   }
 
   handleDeslikePost = (number, id) => {
+    const { filterPosts } = this.state
     const result = this.props.postList.find((data) => data.id == id)
 
     if (result.userVoteDirection === -1) {
       const namePage = 'userPage'
-      this.props.likeDeslikePost(0, id, namePage)
+      this.props.likeDeslikePost(0, id, namePage, filterPosts)
     } else {
       const namePage = 'userPage'
-      this.props.likeDeslikePost(number, id, namePage)
+      this.props.likeDeslikePost(number, id, namePage, filterPosts)
     }
-    const response = async () =>{
-      await this.handleFilterPost()
-    }
-   response()
   }
 
   handleFilterPost = () => {
-    console.log('fui clicado')
     const { filterPosts } = this.state
-    const valueFilter = filterPosts === undefined ? this.props.postList : filterPosts
-    const allPostsNoFilter = this.props.postList
-    const postsFilter = allPostsNoFilter.filter(post => {
-      return (post.text.toLowerCase().indexOf(valueFilter.toLowerCase()) > -1)
-    })
-    this.setState({
-      allpostsFilter: postsFilter
-    })
+    const valueFilter = filterPosts && filterPosts
+    this.props.getPosts(valueFilter)
   }
 
   render() {
-    const { title, text, filterPosts, allpostsFilter } = this.state
-    const allPosts = allpostsFilter ? allpostsFilter : this.props.postList
+
+    const { title, text, filterPosts } = this.state;
+
+
+    const allPosts = this.props.allpostsFilter ? this.props.allpostsFilter : this.props.postList;
+
     return (
       <div>
         <Header
@@ -168,7 +164,8 @@ class UserPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    postList: state.postList.posts
+    postList: state.postList.posts,
+    allpostsFilter: state.postList.filter
   }
 }
 
@@ -176,9 +173,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     goToLoginPage: () => dispatch(push(routes.loginPage)),
     createNewPost: (title, text) => dispatch(createNewPost(title, text)),
-    getPosts: () => dispatch(getPosts()),
+    getPosts: (valueFilter) => dispatch(getPosts(valueFilter)),
     getPostDetails: id => dispatch(getPostDetails(id)),
-    likeDeslikePost: (number, id, namePage) => dispatch(likeDeslikePost(number, id, namePage))
+    likeDeslikePost: (number, id, namePage, filterPosts) => dispatch(likeDeslikePost(number, id, namePage, filterPosts)),
   }
 }
 
