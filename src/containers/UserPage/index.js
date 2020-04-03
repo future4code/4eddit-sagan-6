@@ -20,10 +20,8 @@ class UserPage extends React.Component {
       text: '',
       filterPosts: '',
       allpostsFilter: undefined,
-      token: window.localStorage.getItem('token')
     }
   }
-
 
   componentDidMount() {
     if (this.state.token === null) {
@@ -114,7 +112,8 @@ class UserPage extends React.Component {
           filterPosts={filterPosts}
           handleChangeInput={this.handleChangeInput}
           keyPress={this.handleEnter}
-          token={this.state.token}
+          logout
+          search
         />
         <Form
           onSubmit={this.handleNewPost}

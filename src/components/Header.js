@@ -52,7 +52,7 @@ const Header = (props) => {
           <Typography className={classes.title} variant="h6" noWrap>
             4Eddit
           </Typography>
-          <div className={classes.search}>
+          {props.search && <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon/>
             </div>
@@ -69,19 +69,10 @@ const Header = (props) => {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div>}
           <div className={classes.grow} />
           <div>
-            {props.token === null ?
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                color="inherit">
-                <AccountCircle />
-              </IconButton>
-              :
+            {props.logout ?
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -90,7 +81,15 @@ const Header = (props) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit">
                 <AccountCircle />
-              </IconButton>
+              </IconButton> :
+              <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit">
+              <AccountCircle />
+            </IconButton>
             }
           </div>
         </Toolbar>

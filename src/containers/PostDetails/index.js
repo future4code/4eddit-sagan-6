@@ -92,7 +92,9 @@ class PostDetails extends Component {
       userVoteDirection, votesCount } = this.props.postDetail
     return (
       <div>
-        <Header goToLoginPage={this.props.goToLoginPage} />
+        <Header
+          goToLoginPage={this.props.goToLoginPage}
+          logout />
         <ListPost>
           <Card
             title={title}
