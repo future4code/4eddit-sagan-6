@@ -44,13 +44,13 @@ const Post = props => {
                 <IconButton
                     onClick={() => props.handleDeslikePost(-1, props.id)}>
                     <ArrowDownwardIcon
-                        color={props.userVoteDirection >= 0 ? '' : 'secondary'} />
+                        color={props.userVoteDirection >= 0 ? 'inherit' : 'secondary'} />
                 </IconButton>
                 <p>{props.votesCount}</p>
                 <IconButton
                     onClick={() => props.handleLikePost(1, props.id)}>
                     <ArrowUpwardIcon
-                        color={props.userVoteDirection <= 0 ? '' : 'primary'} />
+                        color={props.userVoteDirection <= 0 ? 'inherit' : 'primary'} />
                 </IconButton>
                 {props.showCommentIcon === false ? false :
                     <IconButton onClick={props.postDetail}>

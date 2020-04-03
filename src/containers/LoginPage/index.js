@@ -8,8 +8,6 @@ import { push } from 'connected-react-router';
 import Header from "../../components/Header";
 import { WrapperLoginAndCreateUserPage, FormLoginAndCreateUserPage } from '../../style/styles'
 
-
-
 class LoginPage extends Component {
   constructor(props) {
     super(props)
@@ -44,7 +42,7 @@ class LoginPage extends Component {
     const { user, password } = this.state;
     return (
       <div>
-        <Header token={null}/>
+        <Header/>
         <WrapperLoginAndCreateUserPage>
           <FormLoginAndCreateUserPage onSubmit={this.handleSubmitLogin}>
             <Input name='user' type='email'

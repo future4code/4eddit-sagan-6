@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { baseUrl } from '../actions/index'
-import { getPosts, getPostDetails } from './index'
+import { getPosts, getPostDetails } from './index';
 
-export const likeDeslikePost = (number, id, namePage) => async dispatch => {
+export const likeDeslikePost = (number, id, namePage, filterPosts) => async dispatch => {
     try {
         const token = window.localStorage.getItem('token');
-        const response = await axios.put(`${baseUrl}posts/${id}/vote`, {
+        await axios.put(`${baseUrl}posts/${id}/vote`, {
             "direction": number
         },
             {
@@ -16,7 +16,7 @@ export const likeDeslikePost = (number, id, namePage) => async dispatch => {
                 }
             }
         )
-        namePage === 'userPage' ? dispatch(getPosts()) : dispatch(getPostDetails(id))
+        namePage === 'userPage' ? dispatch(getPosts(filterPosts)) : dispatch(getPostDetails(id))
     }
     catch (error) {
         console.error(error.message)
@@ -27,7 +27,7 @@ export const likeDeslikeComment = (number, id) => async dispatch => {
     try {
         const token = window.localStorage.getItem('token');
         const idPost = window.localStorage.getItem('id')
-        const response = await axios.put(`${baseUrl}posts/${idPost}/comment/${id}/vote`, {
+        await axios.put(`${baseUrl}posts/${idPost}/comment/${id}/vote`, {
             "direction": number
         },
             {
